@@ -17,13 +17,6 @@ jobs:
   lint-and-test:
     runs-on: ubuntu-latest
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
-    strategy:
-      matrix:
-        include:
-          - otp: "26.1"
-            elixir: "1.15.7"
-          - otp: "24.2"
-            elixir: "1.13.4"
     env:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -33,12 +26,12 @@ jobs:
       - name: Checkout Github repo
         uses: actions/checkout@v3.0.2
       - name: Setup BEAM Env
-        uses: erlef/setup-beam@v1.15
+        uses: erlef/setup-beam@v1.18.2
         with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
+          otp-version: 27.0.1
+          elixir-version: 1.18.1
       - name: Setup Cache
-        uses: actions/cache@v3.0.4
+        uses: actions/cache@v3
         id: mix-cache
         with:
           path: |
