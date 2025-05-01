@@ -27,8 +27,8 @@ defmodule Endo.MixProject do
       name: "Endo",
       package: package(),
       description: description(),
-      source_url: "https://github.com/vetspire/endo",
-      homepage_url: "https://github.com/vetspire/endo",
+      source_url: "https://github.com/Vetspire-VSP/endo",
+      homepage_url: "https://github.com/Vetspire-VSP/endo",
       docs: [
         main: "Endo"
       ]
@@ -53,7 +53,7 @@ defmodule Endo.MixProject do
   defp package() do
     [
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/vetspire/endo"}
+      links: %{"GitHub" => "https://github.com/Vetspire-VSP/endo"}
     ]
   end
 
