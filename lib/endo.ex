@@ -162,6 +162,23 @@ defmodule Endo do
   Additionally, Endo will display the table schema of any given table via `%Endo.Table{schema: schema}`.
 
   For runtime debugging, you can use the `Endo.table_schema/0` function to retrieve the current default schema.
+
+  ## Testing and asynchronous operations
+
+  Intermittent or even consistent unit test failures may occur, depending on certain database operations which
+  occur simultaneously during execution, given that `Endo.get_table/3` and `Endo.list_tabes/2` spawn their
+  own processes under-the-hood. It is not uncommon to run into database connection errors in your test environment.
+  To avoid this, or to force these functions to run synchronously, simply add the following in your application's config:
+
+  ```elixir
+  config :endo, async: false
+  ```
+
+  or, if you prefer to keep things isolated:
+
+  ```elixir
+  Endo.list_tables(Repo, async: false)
+  ```
   """
 
   alias Endo.Adapters.Postgres
