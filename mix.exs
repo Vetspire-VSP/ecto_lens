@@ -4,7 +4,7 @@ defmodule Endo.MixProject do
   def project do
     [
       app: :endo,
-      version: "0.1.23",
+      version: "0.1.24",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
