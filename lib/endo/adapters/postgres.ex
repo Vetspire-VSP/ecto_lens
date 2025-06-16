@@ -40,13 +40,23 @@ defmodule Endo.Adapters.Postgres do
       }
     end
 
-    opts
-    |> Table.query()
-    |> repo.all(timeout: :timer.minutes(2))
-    |> Task.async_stream(&(&1 |> repo.preload(preloads) |> derive_preloads.()),
-      timeout: :timer.minutes(2)
-    )
-    |> Enum.map(fn {:ok, %Table{} = table} -> table end)
+    tables =
+      opts
+      |> Keyword.delete(:async)
+      |> Table.query()
+      |> repo.all(timeout: :timer.minutes(2))
+
+    preload_func = fn %Table{} = table ->
+      table |> repo.preload(preloads) |> derive_preloads.()
+    end
+
+    if Keyword.get(opts, :async, Application.get_env(:endo, :async, true)) do
+      tables
+      |> Task.async_stream(preload_func, timeout: :timer.minutes(2))
+      |> Enum.map(fn {:ok, table} -> table end)
+    else
+      Enum.map(tables, preload_func)
+    end
   end
 
   @spec to_endo(Table.t(), Keyword.t()) :: Endo.Table.t()

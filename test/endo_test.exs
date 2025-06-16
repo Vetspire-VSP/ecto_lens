@@ -83,6 +83,11 @@ defmodule EndoTest do
       assert %Endo.Table{name: "events", schema: "debug"} =
                Endo.get_table(Test.Postgres.Repo, "events", prefix: "debug")
     end
+
+    test "given `async: false` option, derives preloads synchronously and returns table" do
+      assert %Endo.Table{name: "orgs", schema: "public"} =
+               Endo.get_table(Test.Postgres.Repo, "orgs", async: false)
+    end
   end
 
   describe "list_tables/2 (Postgres)" do
