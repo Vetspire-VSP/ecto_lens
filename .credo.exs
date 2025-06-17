@@ -137,6 +137,7 @@ alias Credo.Check
 
           ## Incompatible with modern versions of Elixir -----------------------
           {Check.Refactor.MapInto, []},
+          {Check.Refactor.ModuleDependencies, []},
           {Check.Warning.LazyLogging, []}
         ]
       }
