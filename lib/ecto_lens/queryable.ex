@@ -63,7 +63,14 @@ defmodule EctoLens.Queryable do
   end
 
   def apply_filter(query, field, %Regex{} = regex) do
-    if String.contains?(regex.opts, "i") do
+    case_insensitive = 
+      cond do
+        is_list(regex.opts) and :caseless in regex.opts -> true
+        is_binary(regex.opts) and String.contains?(regex.opts, "i") -> true
+        true -> false
+      end
+
+    if case_insensitive do
       from(x in query, where: fragment("? ~* ?", field(x, ^field), ^regex.source))
     else
       from(x in query, where: fragment("? ~ ?", field(x, ^field), ^regex.source))
