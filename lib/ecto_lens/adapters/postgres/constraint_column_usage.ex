@@ -1,11 +1,11 @@
-defmodule Endo.Adapters.Postgres.ConstraintColumnUsage do
+defmodule EctoLens.Adapters.Postgres.ConstraintColumnUsage do
   @moduledoc false
 
   use Ecto.Schema
-  use Endo.Queryable
+  use EctoLens.Queryable
 
-  alias Endo.Adapters.Postgres.Table
-  alias Endo.Adapters.Postgres.TableConstraint
+  alias EctoLens.Adapters.Postgres.Table
+  alias EctoLens.Adapters.Postgres.TableConstraint
 
   @type t :: %__MODULE__{}
 

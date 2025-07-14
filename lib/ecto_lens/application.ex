@@ -1,4 +1,4 @@
-defmodule Endo.Application do
+defmodule EctoLens.Application do
   @moduledoc false
 
   use Application

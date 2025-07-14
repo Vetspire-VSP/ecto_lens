@@ -1,8 +1,8 @@
-defmodule Endo.Adapters.Postgres.PgIndex do
+defmodule EctoLens.Adapters.Postgres.PgIndex do
   @moduledoc false
 
   use Ecto.Schema
-  use Endo.Queryable
+  use EctoLens.Queryable
 
   @type t :: %__MODULE__{}
 

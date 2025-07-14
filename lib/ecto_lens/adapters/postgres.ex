@@ -1,29 +1,29 @@
-defmodule Endo.Adapters.Postgres do
+defmodule EctoLens.Adapters.Postgres do
   @moduledoc """
-  Adapter module implementing the ability for Endo to reflect upon any
+  Adapter module implementing the ability for EctoLens to reflect upon any
   Postgres-based Ecto Repo.
 
-  See `Endo` documentation for list of features.
+  See `EctoLens` documentation for list of features.
 
-  In future, parts of `Endo`'s top level documentation may be moved here, but as
+  In future, parts of `EctoLens`'s top level documentation may be moved here, but as
   this is the only supported adapter at the time of writing, this isn't the case.
   """
 
-  @behaviour Endo.Adapter
+  @behaviour EctoLens.Adapter
 
-  alias Endo.Adapters.Postgres.Column
-  alias Endo.Adapters.Postgres.Index
-  alias Endo.Adapters.Postgres.Metadata
-  alias Endo.Adapters.Postgres.PgClass
-  alias Endo.Adapters.Postgres.PgIndex
-  alias Endo.Adapters.Postgres.Size
-  alias Endo.Adapters.Postgres.Table
-  alias Endo.Adapters.Postgres.TableConstraint
-  alias Endo.Column.Postgres.Type
+  alias EctoLens.Adapters.Postgres.Column
+  alias EctoLens.Adapters.Postgres.Index
+  alias EctoLens.Adapters.Postgres.Metadata
+  alias EctoLens.Adapters.Postgres.PgClass
+  alias EctoLens.Adapters.Postgres.PgIndex
+  alias EctoLens.Adapters.Postgres.Size
+  alias EctoLens.Adapters.Postgres.Table
+  alias EctoLens.Adapters.Postgres.TableConstraint
+  alias EctoLens.Column.Postgres.Type
 
   @spec list_tables(repo :: module(), opts :: Keyword.t()) :: [Table.t()]
   def list_tables(repo, opts \\ []) when is_atom(repo) do
-    opts = Keyword.put_new(opts, :prefix, Endo.table_schema())
+    opts = Keyword.put_new(opts, :prefix, EctoLens.table_schema())
     preloads = [:columns, table_constraints: [:key_column_usage, :constraint_column_usage]]
 
     derive_preloads = fn %Table{table_name: name} = table ->
@@ -50,7 +50,7 @@ defmodule Endo.Adapters.Postgres do
       table |> repo.preload(preloads) |> derive_preloads.()
     end
 
-    if Keyword.get(opts, :async, Application.get_env(:endo, :async, true)) do
+    if Keyword.get(opts, :async, Application.get_env(:ecto_lens, :async, true)) do
       tables
       |> Task.async_stream(preload_func, timeout: :timer.minutes(2))
       |> Enum.map(fn {:ok, table} -> table end)
@@ -59,32 +59,32 @@ defmodule Endo.Adapters.Postgres do
     end
   end
 
-  @spec to_endo(Table.t(), Keyword.t()) :: Endo.Table.t()
-  @spec to_endo(TableConstraint.t(), Keyword.t()) :: Endo.Association.t()
-  @spec to_endo(Column.t(), Keyword.t()) :: Endo.Column.t()
-  @spec to_endo(Index.t(), Keyword.t()) :: Endo.Index.t()
+  @spec to_ecto_lens(Table.t(), Keyword.t()) :: EctoLens.Table.t()
+  @spec to_ecto_lens(TableConstraint.t(), Keyword.t()) :: EctoLens.Association.t()
+  @spec to_ecto_lens(Column.t(), Keyword.t()) :: EctoLens.Column.t()
+  @spec to_ecto_lens(Index.t(), Keyword.t()) :: EctoLens.Index.t()
 
-  def to_endo(%Table{} = table, config) do
-    %Endo.Table{
+  def to_ecto_lens(%Table{} = table, config) do
+    %EctoLens.Table{
       adapter: __MODULE__,
       schema: table.schema,
       name: table.table_name,
-      indexes: Enum.map(table.indexes, &to_endo(&1, config)),
-      columns: table.columns |> Enum.map(&to_endo(&1, config)) |> Enum.sort_by(& &1.position),
-      schemas: %Endo.Schema.NotLoaded{
+      indexes: Enum.map(table.indexes, &to_ecto_lens(&1, config)),
+      columns: table.columns |> Enum.map(&to_ecto_lens(&1, config)) |> Enum.sort_by(& &1.position),
+      schemas: %EctoLens.Schema.NotLoaded{
         table: table.table_name,
         otp_app: Keyword.get(config, :otp_app)
       },
       associations:
         table.table_constraints
         |> Enum.filter(&(&1.constraint_type == "FOREIGN KEY"))
-        |> Enum.map(&to_endo(&1, config)),
+        |> Enum.map(&to_ecto_lens(&1, config)),
       metadata: Metadata.derive!(table)
     }
   end
 
-  def to_endo(%Column{} = column, config) do
-    %Endo.Column{
+  def to_ecto_lens(%Column{} = column, config) do
+    %EctoLens.Column{
       adapter: __MODULE__,
       database: config[:database],
       otp_app: config[:otp_app],
@@ -99,8 +99,8 @@ defmodule Endo.Adapters.Postgres do
     }
   end
 
-  def to_endo(%TableConstraint{} = constraint, config) do
-    %Endo.Association{
+  def to_ecto_lens(%TableConstraint{} = constraint, config) do
+    %EctoLens.Association{
       adapter: __MODULE__,
       database: config[:database],
       otp_app: config[:otp_app],
@@ -114,10 +114,10 @@ defmodule Endo.Adapters.Postgres do
     }
   end
 
-  def to_endo(%Index{} = index, config) do
+  def to_ecto_lens(%Index{} = index, config) do
     metadata = index.pg_index || %PgIndex{}
 
-    %Endo.Index{
+    %EctoLens.Index{
       adapter: __MODULE__,
       database: config[:database],
       otp_app: config[:otp_app],

@@ -1,4 +1,4 @@
-defmodule Endo.Queryable do
+defmodule EctoLens.Queryable do
   @moduledoc false
   # coveralls-ignore-start
 

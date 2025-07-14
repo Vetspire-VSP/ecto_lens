@@ -1,4 +1,4 @@
-defmodule Endo.Column do
+defmodule EctoLens.Column do
   @moduledoc "Column metadata for a given table's columns"
 
   @type t :: %__MODULE__{}
@@ -15,11 +15,11 @@ defmodule Endo.Column do
     :repo,
     :otp_app,
     :database,
-    indexes: %Endo.Index.NotLoaded{}
+    indexes: %EctoLens.Index.NotLoaded{}
   ]
 
   defmodule Postgres.Type.Metadata do
-    alias Endo.Adapters.Postgres
+    alias EctoLens.Adapters.Postgres
 
     defmodule Character do
       @moduledoc false

@@ -1,17 +1,17 @@
-defmodule Endo.Adapters.Postgres.KeyColumnUsage do
+defmodule EctoLens.Adapters.Postgres.KeyColumnUsage do
   @moduledoc false
   use Ecto.Schema
-  use Endo.Queryable
+  use EctoLens.Queryable
 
-  alias Endo.Adapters.Postgres.Table
-  alias Endo.Adapters.Postgres.TableConstraint
+  alias EctoLens.Adapters.Postgres.Table
+  alias EctoLens.Adapters.Postgres.TableConstraint
 
   @type t :: %__MODULE__{}
 
   # TODO: This table can be used in tandem with our existing index lookup logic
   #       to determine table constraints, whether or not indexes are unique, etc
   #
-  #       This mapping currently exists and works, but isn't exposed by `Endo`'s
+  #       This mapping currently exists and works, but isn't exposed by `EctoLens`'s
   #       top level structs, or queries. Thus we'll ignore it for the time being.
   #
   # coveralls-ignore-start

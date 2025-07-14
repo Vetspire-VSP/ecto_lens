@@ -1,4 +1,4 @@
-defmodule Endo.Adapters.Postgres.Size do
+defmodule EctoLens.Adapters.Postgres.Size do
   @moduledoc false
 
   import Ecto.Query

@@ -1,10 +1,10 @@
-defmodule Endo.Adapters.Postgres.Column do
+defmodule EctoLens.Adapters.Postgres.Column do
   @moduledoc false
 
   use Ecto.Schema
-  use Endo.Queryable
+  use EctoLens.Queryable
 
-  alias Endo.Adapters.Postgres.Table
+  alias EctoLens.Adapters.Postgres.Table
 
   @type t :: %__MODULE__{}
 
@@ -75,7 +75,7 @@ defmodule Endo.Adapters.Postgres.Column do
     field(:identity_cycle, Ecto.Enum, values: [yes: "YES", no: "NO"])
   end
 
-  @impl Endo.Queryable
+  @impl EctoLens.Queryable
   def query(base_query \\ base_query(), filters) do
     Enum.reduce(filters, base_query, fn
       {:subquery, true}, query ->

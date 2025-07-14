@@ -1,12 +1,12 @@
-defmodule Endo.Adapters.Postgres.PgClass do
+defmodule EctoLens.Adapters.Postgres.PgClass do
   @moduledoc false
 
   use Ecto.Schema
-  use Endo.Queryable
+  use EctoLens.Queryable
 
-  alias Endo.Adapters.Postgres.Index
-  alias Endo.Adapters.Postgres.PgAttribute
-  alias Endo.Adapters.Postgres.PgIndex
+  alias EctoLens.Adapters.Postgres.Index
+  alias EctoLens.Adapters.Postgres.PgAttribute
+  alias EctoLens.Adapters.Postgres.PgIndex
 
   alias __MODULE__
 
@@ -58,7 +58,7 @@ defmodule Endo.Adapters.Postgres.PgClass do
     # field :relpartbound pg_node_tree
   end
 
-  @impl Endo.Queryable
+  @impl EctoLens.Queryable
   # credo:disable-for-next-line Credo.Check.Refactor.ABCSize
   def query(base_query \\ base_query(), filters) do
     Enum.reduce(filters, base_query, fn

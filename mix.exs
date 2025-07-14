@@ -1,9 +1,9 @@
-defmodule Endo.MixProject do
+defmodule EctoLens.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :endo,
+      app: :ecto_lens,
       version: "0.1.24",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
@@ -24,27 +24,27 @@ defmodule Endo.MixProject do
         "coveralls.html": :test,
         "test.watch": :test
       ],
-      name: "Endo",
+      name: "EctoLens",
       package: package(),
       description: description(),
-      source_url: "https://github.com/vetspire/endo",
-      homepage_url: "https://github.com/vetspire/endo",
+      source_url: "https://github.com/vetspire/ecto_lens",
+      homepage_url: "https://github.com/vetspire/ecto_lens",
       docs: [
-        main: "Endo"
+        main: "EctoLens"
       ]
     ]
   end
 
   def application do
     [
-      mod: {Endo.Application, []},
+      mod: {EctoLens.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
 
   defp description() do
     """
-    Endo is a library containing database schema reflection APIs for your applications, as
+    EctoLens is a library containing database schema reflection APIs for your applications, as
     well as implementations of queryable schemas to facilitate custom database reflection
     via Ecto.
     """
@@ -53,13 +53,13 @@ defmodule Endo.MixProject do
   defp package() do
     [
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/vetspire/endo"}
+      links: %{"GitHub" => "https://github.com/vetspire/ecto_lens"}
     ]
   end
 
   defp deps do
     [
-      # Endo's actual dependencies
+      # EctoLens's actual dependencies
       {:jason, "~> 1.1"},
       {:ecto, "~> 3.12"},
 

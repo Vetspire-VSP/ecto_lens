@@ -1,15 +1,15 @@
-defmodule Endo.Adapters.Postgres.Metadata do
-  @moduledoc "Utility module for taking a Postgres table and exposing adapter specific metadata to Endo"
+defmodule EctoLens.Adapters.Postgres.Metadata do
+  @moduledoc "Utility module for taking a Postgres table and exposing adapter specific metadata to EctoLens"
   # coveralls-ignore-start
 
-  alias Endo.Adapters.Postgres.PgClass
-  alias Endo.Adapters.Postgres.Table
+  alias EctoLens.Adapters.Postgres.PgClass
+  alias EctoLens.Adapters.Postgres.Table
 
-  @spec derive!(Table.t()) :: Endo.Metadata.Postgres.t()
+  @spec derive!(Table.t()) :: EctoLens.Metadata.Postgres.t()
   def derive!(%Table{pg_class: nil} = table) do
-    %Endo.Metadata.NotAvailable{
+    %EctoLens.Metadata.NotAvailable{
       table: table.table_name,
-      adapter: Endo.Adapters.Postgres,
+      adapter: EctoLens.Adapters.Postgres,
       message: "Could not find `pg_class` for table."
     }
   end
@@ -18,7 +18,7 @@ defmodule Endo.Adapters.Postgres.Metadata do
     pg_class = (is_map(pg_class) && pg_class) || %{}
     size = (is_map(size) && size) || %{}
 
-    %Endo.Metadata.Postgres{
+    %EctoLens.Metadata.Postgres{
       replica_identity: replica_identity(pg_class),
       kind: kind(pg_class),
       has_triggers: Map.get(pg_class, :relhastriggers),

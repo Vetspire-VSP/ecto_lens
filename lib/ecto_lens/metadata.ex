@@ -1,4 +1,4 @@
-defmodule Endo.Metadata do
+defmodule EctoLens.Metadata do
   @moduledoc "Utility module for surfacing adapter specific metadata"
 
   defmodule NotLoaded do

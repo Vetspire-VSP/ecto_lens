@@ -1,4 +1,4 @@
-defmodule Endo.Utils.ETS do
+defmodule EctoLens.Utils.ETS do
   @moduledoc """
   Exposes functions for some basic ETS operations.
   https://www.erlang.org/doc/man/ets.html

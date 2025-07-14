@@ -1,12 +1,12 @@
-defmodule Endo.Adapters.Postgres.TableConstraint do
+defmodule EctoLens.Adapters.Postgres.TableConstraint do
   @moduledoc false
 
   use Ecto.Schema
-  use Endo.Queryable
+  use EctoLens.Queryable
 
-  alias Endo.Adapters.Postgres.ConstraintColumnUsage
-  alias Endo.Adapters.Postgres.KeyColumnUsage
-  alias Endo.Adapters.Postgres.Table
+  alias EctoLens.Adapters.Postgres.ConstraintColumnUsage
+  alias EctoLens.Adapters.Postgres.KeyColumnUsage
+  alias EctoLens.Adapters.Postgres.Table
 
   @type t :: %__MODULE__{}
 
@@ -44,7 +44,7 @@ defmodule Endo.Adapters.Postgres.TableConstraint do
     field(:enforced, Ecto.Enum, values: [yes: "YES", no: "NO"])
   end
 
-  @impl Endo.Queryable
+  @impl EctoLens.Queryable
   def query(base_query \\ base_query(), filters) do
     Enum.reduce(filters, base_query, fn
       {:subquery, true}, query ->

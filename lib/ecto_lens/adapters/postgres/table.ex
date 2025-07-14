@@ -1,14 +1,14 @@
-defmodule Endo.Adapters.Postgres.Table do
+defmodule EctoLens.Adapters.Postgres.Table do
   @moduledoc false
 
   use Ecto.Schema
-  use Endo.Queryable
+  use EctoLens.Queryable
 
-  alias Endo.Adapters.Postgres.Column
-  alias Endo.Adapters.Postgres.ConstraintColumnUsage
-  alias Endo.Adapters.Postgres.KeyColumnUsage
-  alias Endo.Adapters.Postgres.PgClass
-  alias Endo.Adapters.Postgres.TableConstraint
+  alias EctoLens.Adapters.Postgres.Column
+  alias EctoLens.Adapters.Postgres.ConstraintColumnUsage
+  alias EctoLens.Adapters.Postgres.KeyColumnUsage
+  alias EctoLens.Adapters.Postgres.PgClass
+  alias EctoLens.Adapters.Postgres.TableConstraint
 
   @type t :: %__MODULE__{}
 
@@ -52,12 +52,12 @@ defmodule Endo.Adapters.Postgres.Table do
     field(:schema, :string, virtual: true)
   end
 
-  @impl Endo.Queryable
+  @impl EctoLens.Queryable
   def base_query do
     from(x in __MODULE__, as: :self)
   end
 
-  @impl Endo.Queryable
+  @impl EctoLens.Queryable
   def query(base_query \\ base_query(), filters) do
     Enum.reduce(filters, base_query, fn
       {:prefix, prefix}, query when is_binary(prefix) ->
