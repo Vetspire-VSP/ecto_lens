@@ -6,5 +6,8 @@ defmodule EctoLens.Adapter do
 
   @callback list_tables(repo :: module(), filters :: Keyword.t()) :: [map()]
   @callback to_ecto_lens(data :: map(), opts :: Keyword.t()) ::
-              EctoLens.Table.t() | EctoLens.Column.t() | EctoLens.Association.t() | EctoLens.Index.t()
+              EctoLens.Table.t()
+              | EctoLens.Column.t()
+              | EctoLens.Association.t()
+              | EctoLens.Index.t()
 end

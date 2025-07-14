@@ -169,11 +169,15 @@ defmodule EctoLensTest do
 
       # Whereas all tables has an `inserted_at` column
       assert 5 ==
-               Test.Postgres.Repo |> EctoLens.list_tables(with_column: "inserted_at") |> Enum.count()
+               Test.Postgres.Repo
+               |> EctoLens.list_tables(with_column: "inserted_at")
+               |> Enum.count()
 
       # `schema_migrations` does not have an `updated_at` however
       assert 4 ==
-               Test.Postgres.Repo |> EctoLens.list_tables(with_column: "updated_at") |> Enum.count()
+               Test.Postgres.Repo
+               |> EctoLens.list_tables(with_column: "updated_at")
+               |> Enum.count()
     end
 
     test "lists tables and metadata for all tables without column", ctx do
@@ -210,7 +214,9 @@ defmodule EctoLensTest do
       refute is_nil(ctx.find.(tables, "accounts_orgs"))
 
       # Only one table is associated with `orgs`
-      assert tables = EctoLens.list_tables(Test.Postgres.Repo, with_foreign_key_constraint: "orgs")
+      assert tables =
+               EctoLens.list_tables(Test.Postgres.Repo, with_foreign_key_constraint: "orgs")
+
       assert Enum.count(tables) == 1
       refute is_nil(ctx.find.(tables, "accounts_orgs"))
     end
@@ -219,7 +225,9 @@ defmodule EctoLensTest do
       # As `accounts_orgs` and `repos` are associated with `accounts`; that means `accounts`, `orgs`,
       # and `schema_migrations` are _not_ associated with `accounts`
       assert tables =
-               EctoLens.list_tables(Test.Postgres.Repo, without_foreign_key_constraint: "accounts")
+               EctoLens.list_tables(Test.Postgres.Repo,
+                 without_foreign_key_constraint: "accounts"
+               )
 
       assert Enum.count(tables) == 3
       refute is_nil(ctx.find.(tables, "accounts"))
@@ -317,7 +325,9 @@ defmodule EctoLensTest do
                EctoLens.list_tables(Test.Postgres.Repo, table_name: "accounts")
 
       assert tables =
-               EctoLens.list_tables(Test.Postgres.Repo, table_name: ["accounts", "random", "orgs"])
+               EctoLens.list_tables(Test.Postgres.Repo,
+                 table_name: ["accounts", "random", "orgs"]
+               )
 
       assert is_nil(ctx.find.(tables, "random"))
       refute is_nil(ctx.find.(tables, "accounts"))
@@ -343,7 +353,8 @@ defmodule EctoLensTest do
 
     test "lists tables and metadata for all tables having an index covering field", ctx do
       # Table `accounts_orgs` defines a compound index on `account_id` x `org_id`...
-      assert tables_indexing_org_id = EctoLens.list_tables(Test.Postgres.Repo, with_index: "org_id")
+      assert tables_indexing_org_id =
+               EctoLens.list_tables(Test.Postgres.Repo, with_index: "org_id")
 
       # However `with_index` only works on exact matches and thus won't be returned.
       assert is_nil(ctx.find.(tables_indexing_org_id, "accounts_orgs"))
@@ -467,7 +478,9 @@ defmodule EctoLensTest do
                indexes: [%EctoLens.Index{is_unique: true, name: "accounts_username_index"}]
              } = Enum.find(accounts.columns, &(&1.name == "username"))
 
-      assert %EctoLens.Column{indexes: [%EctoLens.Index{is_unique: true, name: "accounts_email_index"}]} =
+      assert %EctoLens.Column{
+               indexes: [%EctoLens.Index{is_unique: true, name: "accounts_email_index"}]
+             } =
                Enum.find(accounts.columns, &(&1.name == "email"))
 
       assert %EctoLens.Column{
@@ -490,7 +503,8 @@ defmodule EctoLensTest do
       assert %EctoLens.Column{indexes: [^repos_account_id_name_index]} =
                Enum.find(repos.columns, &(&1.name == "name"))
 
-      assert %EctoLens.Column{indexes: []} = Enum.find(repos.columns, &(&1.name == "some_interval"))
+      assert %EctoLens.Column{indexes: []} =
+               Enum.find(repos.columns, &(&1.name == "some_interval"))
     end
 
     test "given a single table, returns whether columns are nullable" do
@@ -532,7 +546,8 @@ defmodule EctoLensTest do
       assert %EctoLens.Column{indexes: [^repos_account_id_name_index]} =
                Enum.find(repos.columns, &(&1.name == "name"))
 
-      assert %EctoLens.Column{indexes: []} = Enum.find(repos.columns, &(&1.name == "some_interval"))
+      assert %EctoLens.Column{indexes: []} =
+               Enum.find(repos.columns, &(&1.name == "some_interval"))
     end
 
     test "given a list of columns, fetches all indexes for each column" do

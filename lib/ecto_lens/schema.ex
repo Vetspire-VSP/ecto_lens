@@ -30,7 +30,8 @@ defmodule EctoLens.Schema do
       ecto_lens_tables = inspect(ecto_lens_tables)
 
       raise ArgumentError,
-        message: "All entities in list must be of type `EctoLens.Table.t()`. Got: #{ecto_lens_tables}"
+        message:
+          "All entities in list must be of type `EctoLens.Table.t()`. Got: #{ecto_lens_tables}"
     end
 
     {unloaded_ecto_lens_tables, loaded_ecto_lens_tables} =

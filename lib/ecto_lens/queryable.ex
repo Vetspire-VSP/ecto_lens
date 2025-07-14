@@ -63,7 +63,7 @@ defmodule EctoLens.Queryable do
   end
 
   def apply_filter(query, field, %Regex{} = regex) do
-    case_insensitive = 
+    case_insensitive =
       cond do
         is_list(regex.opts) and :caseless in regex.opts -> true
         is_binary(regex.opts) and String.contains?(regex.opts, "i") -> true

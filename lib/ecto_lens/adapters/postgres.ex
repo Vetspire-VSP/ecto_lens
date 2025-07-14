@@ -70,7 +70,8 @@ defmodule EctoLens.Adapters.Postgres do
       schema: table.schema,
       name: table.table_name,
       indexes: Enum.map(table.indexes, &to_ecto_lens(&1, config)),
-      columns: table.columns |> Enum.map(&to_ecto_lens(&1, config)) |> Enum.sort_by(& &1.position),
+      columns:
+        table.columns |> Enum.map(&to_ecto_lens(&1, config)) |> Enum.sort_by(& &1.position),
       schemas: %EctoLens.Schema.NotLoaded{
         table: table.table_name,
         otp_app: Keyword.get(config, :otp_app)
